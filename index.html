@@ -45,10 +45,9 @@
 <body>
     <div id="app" v-cloak class="max-w-md mx-auto min-h-screen relative bg-[#F8FAFC] pb-24 shadow-2xl border-x border-slate-100">
         
-        <!-- 頁首 Banner (恢復原始滿版樣式，object-left 確保左側人物完整) -->
+        <!-- 頁首 Banner (恢復滿版樣式，使用 object-left 確保左邊人物完整) -->
         <div class="h-[320px] relative w-full overflow-hidden bg-slate-200">
-            <img src="banner.jpg" @error="handleBannerError" 
-                 class="w-full h-full object-cover object-left transition-opacity duration-700">
+            <img src="banner.jpg" @error="handleBannerError" class="w-full h-full object-cover object-left">
             <div class="absolute inset-0 banner-gradient"></div>
             
             <div class="absolute top-14 left-8">
@@ -81,18 +80,18 @@
                     </button>
                 </div>
 
-                <!-- 每日餐食概覽 (擷取自行程內容) -->
+                <!-- 每日餐食概覽 (從行程自動擷取) -->
                 <div class="grid grid-cols-3 gap-3">
                     <div v-for="food in ['早餐', '午餐', '晚餐']" :key="food" 
-                         class="relative bg-white rounded-[32px] p-4 border border-slate-50 shadow-sm flex flex-col items-center justify-center gap-2 group overflow-hidden">
+                         class="relative bg-white rounded-[32px] p-4 border border-slate-50 shadow-sm flex flex-col items-center justify-center gap-2 group transition-all">
                         
-                        <!-- 導航按鈕 (如果有擷取到內容) -->
+                        <!-- 快速導航按鈕 -->
                         <button v-if="getFoodItem(food)" @click.stop="navigate(getFoodItem(food).name)"
                                 class="absolute top-2 right-2 p-1.5 bg-orange-50 text-orange-500 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
                             <i data-lucide="navigation" class="w-3 h-3"></i>
                         </button>
 
-                        <div @click="openFoodEdit(food)" class="flex flex-col items-center gap-2 cursor-pointer w-full">
+                        <div @click="openFoodEdit(food)" class="flex flex-col items-center gap-2 cursor-pointer w-full active:scale-95 transition-transform">
                             <div :class="['p-3 rounded-2xl transition-colors', getFoodItem(food) ? 'bg-orange-50 text-orange-500' : 'bg-slate-50 text-slate-300']">
                                 <i :data-lucide="getFoodIcon(food)" class="w-5 h-5"></i>
                             </div>
@@ -244,11 +243,11 @@
                 </section>
             </div>
 
-            <!-- 3. 購物分頁 (品項已清空) -->
-            <div v-else-if="activeTab === 'shopping'" class="space-y-5 pb-10 animate-slide-up min-h-[400px] flex flex-col items-center justify-center">
-                <div v-if="shoppingList.length > 0" class="w-full space-y-5">
+            <!-- 3. 購物分頁 (初始清空) -->
+            <div v-else-if="activeTab === 'shopping'" class="space-y-5 pb-10 animate-slide-up">
+                <div v-if="shoppingList.length > 0" class="w-full">
                     <div v-for="item in shoppingList" :key="item.id" @click="openShoppingEdit(item)"
-                         class="bg-white rounded-[40px] p-5 flex gap-5 shadow-sm border border-slate-100 active:scale-[0.97] transition-all">
+                         class="bg-white rounded-[40px] p-5 flex gap-5 shadow-sm border border-slate-100 active:scale-[0.97] transition-all mb-4">
                         <div class="w-28 h-28 bg-slate-50 rounded-[32px] overflow-hidden border border-slate-100 flex items-center justify-center relative shadow-inner">
                             <img v-if="item.image" :src="item.image" class="w-full h-full object-cover">
                             <i v-else data-lucide="image" class="w-10 h-10 text-slate-200"></i>
@@ -262,8 +261,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="text-center p-12">
-                    <div class="bg-slate-50 w-24 h-24 rounded-[40px] flex items-center justify-center mx-auto mb-6 text-slate-200">
+                <div v-else class="text-center py-20">
+                    <div class="bg-slate-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
                         <i data-lucide="shopping-cart" class="w-10 h-10"></i>
                     </div>
                     <p class="text-slate-400 font-bold">目前購物清單是空的</p>
@@ -303,12 +302,12 @@
                     <div v-if="!modal.isShopping" class="space-y-6">
                         <div class="space-y-1">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">項目名稱</label>
-                            <input v-model="modal.form.name" type="text" class="w-full bg-slate-50 rounded-3xl p-5 font-bold outline-none border-none text-lg" placeholder="地點或活動名稱">
+                            <input v-model="modal.form.name" type="text" class="w-full bg-slate-50 rounded-3xl p-5 font-bold outline-none border-none text-lg" placeholder="名稱">
                         </div>
                         <div class="flex gap-4">
                             <div class="flex-1 space-y-1">
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">類別</label>
-                                <select v-model="modal.form.category" class="w-full bg-slate-50 rounded-3xl p-5 font-bold outline-none border-none">
+                                <select v-model="modal.form.category" class="w-full bg-slate-50 rounded-3xl p-5 font-bold border-none">
                                     <option>景點</option>
                                     <option>住宿</option>
                                     <option>美食</option>
@@ -324,7 +323,7 @@
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">詳細備註</label>
-                            <textarea v-model="modal.form.notes" class="w-full bg-slate-50 rounded-3xl p-5 font-medium h-36 outline-none border-none leading-relaxed" placeholder="輸入備註..."></textarea>
+                            <textarea v-model="modal.form.notes" class="w-full bg-slate-50 rounded-3xl p-5 font-medium h-36 outline-none border-none leading-relaxed" placeholder="詳細內容..."></textarea>
                         </div>
                     </div>
 
@@ -335,7 +334,7 @@
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">筆記</label>
-                            <textarea v-model="modal.form.notes" class="w-full bg-slate-50 rounded-3xl p-5 font-medium h-24 border-none" placeholder="價格或購買地點..."></textarea>
+                            <textarea v-model="modal.form.notes" class="w-full bg-slate-50 rounded-3xl p-5 font-medium h-24 border-none" placeholder="價格或地點..."></textarea>
                         </div>
                     </div>
 
@@ -389,14 +388,13 @@
                 const itineraries = ref({
                     '1/26': [
                         { id: '1-1', name: '星宇航空 JX802', category: '航班', time: '10:10', notes: '台北 T1 出發 -> 14:20 成田 T2 抵達' },
-                        { id: '1-2', name: 'JR 綠色窗口', category: '交通', notes: '換 Suica 並儲值' },
                         { id: '1-6', name: 'Hop Inn Asakusa', category: '住宿', time: '16:00', notes: '預計 16:00-17:00 辦理入住' },
                         { id: '1-9', name: '淺草寺夜拍散步', category: '景點', notes: 'Lawson 買消夜點心與 1/27 早餐' }
                     ],
                     '1/27': [
-                        { id: '2-1', name: '東京站 Gransta & 一番街', category: '美食', time: '10:00', notes: '逛角色商店、伴手禮與午餐點心' },
+                        { id: '2-1', name: '東京站 Gransta & 一番街', category: '美食', time: '10:00', notes: '早餐與伴手禮' },
                         { id: '2-2', name: '東京鐵塔 & RED°', category: '景點', time: '15:00', notes: '登塔遊覽和 RED° 遊玩' },
-                        { id: '2-3', name: '淺草在地晚餐', category: '美食', time: '19:00', notes: '買好雪場需要吃的早餐與食物' }
+                        { id: '2-3', name: '淺草壽喜燒', category: '美食', time: '19:00', notes: '晚餐：買好雪場需要吃的早餐與食物' }
                     ],
                     '1/28': [
                         { id: '3-2', name: '上越新幹線', category: '交通', time: '09:58', notes: '抵達時間 11:11' },
@@ -404,18 +402,18 @@
                         { id: '3-5', name: '苗場王子飯店 4號館', category: '住宿', time: '15:30', notes: 'Check in, 填借裝備單, 晚餐美食街' }
                     ],
                     '1/29': [
-                        { id: '4-1', name: '苗場滑雪趣 (Day 1)', category: '景點', notes: '全天滑雪行程，包含早餐午餐' }
+                        { id: '4-1', name: '苗場滑雪趣 (Day 1)', category: '景點', notes: '全天滑雪行程' }
                     ],
                     '1/30': [
-                        { id: '5-1', name: '苗場滑雪趣 (Day 2)', category: '景點', notes: '全天滑雪行程，晚餐慶功宴' }
+                        { id: '5-1', name: '苗場滑雪趣 (Day 2)', category: '景點', notes: '全天滑雪行程' }
                     ],
                     '1/31': [
-                        { id: '6-2', name: 'Tonkatsu Ninjintei', category: '美食', time: '12:00', notes: '人參亭炸豬排午餐' },
+                        { id: '6-2', name: 'Tonkatsu Ninjintei', category: '美食', time: '12:00', notes: '午餐：人參亭炸豬排' },
                         { id: '6-5', name: '星宇航空 JX805', category: '航班', time: '20:10', notes: '20:10 起飛 -> 23:20 抵達台灣 T1' }
                     ]
                 });
 
-                // 購物清單初始化為空
+                // 初始購物清單為空
                 const shoppingList = ref([]);
 
                 const modal = ref({ show: false, title: '', isEdit: false, isShopping: false, form: {} });
@@ -466,7 +464,7 @@
                                     temp: Math.round(data.current_weather.temperature), 
                                     label: data.current_weather.weathercode < 3 ? '晴朗' : '多雲', 
                                     type: data.current_weather.weathercode < 3 ? 'sun' : 'cloud',
-                                    location: `目前定位 (${latitude.toFixed(1)}, ${longitude.toFixed(1)})`
+                                    location: `定位 (${latitude.toFixed(1)}, ${longitude.toFixed(1)})`
                                 };
                                 weatherLoading.value = false;
                                 nextTick(lucide.createIcons);

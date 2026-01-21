@@ -349,24 +349,47 @@
 
                 const itineraries = ref({
                     '1/26': [
-                        { id: '1-1', name: '星宇航空 JX802', category: '航班', time: '10:10', notes: '台北 T1 出發 -> 14:20 成田 T2 抵達', transportToNext: { type: 'WALK', duration: '20 min' } },
-                        { id: '1-6', name: 'Hop Inn Asakusa', category: '住宿', time: '16:00', notes: '預計 16:00-17:00 辦理入住', transportToNext: { type: 'WALK', duration: '10 min' } },
-                        { id: '1-9', name: '淺草寺夜拍散步', category: '景點', notes: 'Lawson 買消夜點心與 1/27 早餐' }
+                        { id: '1-1', name: '星宇航空 JX802', category: '航班', time: '10:10', notes: '台北 T1 出發 -> 14:20 成田 T2 抵達', transportToNext: { type: 'TRANSIT', duration: '前往 B1' } },
+                        { id: '1-2', name: 'JR 綠色窗口', category: '交通', notes: '換 Suica 並儲值 (成田機場)', transportToNext: { type: 'TRANSIT', duration: '45 min' } },
+                        { id: '1-3', name: 'Skyliner (前往上野)', category: '交通', notes: '搭乘特急前往上野站', transportToNext: { type: 'TRANSIT', duration: '15 min' } },
+                        { id: '1-4', name: '銀座線 (前往淺草)', category: '交通', notes: '轉乘至淺草站 (二番線，1號出口有電梯)', transportToNext: { type: 'WALK', duration: '5 min' } },
+                        { id: '1-5', name: '領取地鐵一日券', category: '交通', notes: '車站自動售票機領取', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '1-6', name: 'HOP INN 淺草', category: '住宿', time: '16:00', notes: 'Check-in (預計 16:00-17:00)', transportToNext: { type: 'WALK', duration: '5 min' } },
+                        { id: '1-7', name: 'UNIQLO 淺草店', category: '購物', notes: '10:00-20:00 (台東區淺草2-6-7)', transportToNext: { type: 'WALK', duration: '5 min' } },
+                        { id: '1-8', name: 'MUJI 淺草 ROX', category: '購物', notes: '10:30-21:00 (ROX 3F)', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '1-9', name: '一蘭拉麵 淺草店', category: '美食', notes: '晚餐 (10:00-23:00)', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '1-10', name: '淺草寺夜拍', category: '景點', notes: 'Lawson 買消夜與隔日早餐' }
                     ],
                     '1/27': [
-                        { id: '2-1', name: '東京站 Gransta & 一番街', category: '美食', time: '10:00', notes: '早餐與伴手禮', transportToNext: { type: 'TRANSIT', duration: '30 min' } },
-                        { id: '2-2', name: '東京鐵塔 & RED°', category: '景點', time: '15:00', notes: '登塔遊覽和 RED° 遊玩' }
+                        { id: '2-1', name: '前往東京站', category: '交通', time: '09:30', notes: '搭乘銀座線 (約30-40分)', transportToNext: { type: 'TRANSIT', duration: '40 min' } },
+                        { id: '2-2', name: 'Gransta & 一番街', category: '購物', time: '10:00', notes: '逛角色商店、伴手禮與甜點', transportToNext: { type: 'WALK', duration: '5 min' } },
+                        { id: '2-3', name: '東京站午餐', category: '美食', notes: '享用午餐', transportToNext: { type: 'TRANSIT', duration: '20 min' } },
+                        { id: '2-4', name: '前往東京鐵塔', category: '交通', time: '13:00', notes: '出發前往東京鐵塔', transportToNext: { type: 'TRANSIT', duration: '30 min' } },
+                        { id: '2-5', name: '東京鐵塔 & RED°', category: '景點', time: '15:00', notes: '登塔遊覽 (15:00-18:00)', transportToNext: { type: 'TRANSIT', duration: '40 min' } },
+                        { id: '2-6', name: '返回淺草晚餐', category: '美食', time: '19:00', notes: '搭地鐵回淺草晚餐', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '2-7', name: '採買雪場物資', category: '購物', notes: '買好 3早餐、2午餐、3晚餐' }
                     ],
                     '1/28': [
-                        { id: '3-2', name: '上越新幹線', category: '交通', time: '09:58', notes: '抵達時間 11:11', transportToNext: { type: 'WALK', duration: '5 min' } },
-                        { id: '3-3', name: '中野屋 嘿奇蕎麥', category: '美食', time: '11:30', notes: '午餐：湯澤在地名物', transportToNext: { type: 'TRANSIT', duration: '40 min' } },
-                        { id: '3-5', name: '苗場王子飯店', category: '住宿', time: '15:30', notes: 'Check in' }
+                        { id: '3-1', name: '退房 & 前往上野', category: '交通', time: '08:00', notes: '銀座線淺草站 (2番線1號出口電梯)', transportToNext: { type: 'TRANSIT', duration: '20 min' } },
+                        { id: '3-2', name: '上越新幹線', category: '交通', time: '09:58', notes: '上野 -> 越後湯澤 (09:58-11:11)', transportToNext: { type: 'SHINKANSEN', duration: '73 min' } },
+                        { id: '3-3', name: '越後湯澤站', category: '景點', time: '11:11', notes: '寄行李、中野屋抽號碼牌、逛車站', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '3-4', name: '中野屋 嘿奇蕎麥', category: '美食', time: '11:30', notes: '享用午餐', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '3-5', name: '飯店接駁巴士', category: '交通', time: '14:10', notes: '前往苗場 (約40-50分)', transportToNext: { type: 'CAR', duration: '50 min' } },
+                        { id: '3-6', name: '苗場王子飯店 4號館', category: '住宿', time: '15:30', notes: 'Check-in, 填寫裝備單', transportToNext: { type: 'WALK', duration: '5 min' } },
+                        { id: '3-7', name: '美食街晚餐', category: '美食', notes: '飯店內享用' }
                     ],
-                    '1/29': [{ id: '4-1', name: '苗場滑雪 Day 1', category: '景點', notes: '全天滑雪' }],
-                    '1/30': [{ id: '5-1', name: '苗場滑雪 Day 2', category: '景點', notes: '全天滑雪' }],
+                    '1/29': [
+                        { id: '4-1', name: '苗場滑雪趣 (Day 1)', category: '景點', notes: '全天滑雪行程' }
+                    ],
+                    '1/30': [
+                        { id: '5-1', name: '苗場滑雪趣 (Day 2)', category: '景點', notes: '全天滑雪行程' }
+                    ],
                     '1/31': [
-                        { id: '6-2', name: '人參亭炸豬排', category: '美食', time: '12:00', notes: '午餐', transportToNext: { type: 'TRANSIT', duration: '60 min' } },
-                        { id: '6-5', name: '星宇航空 JX805', category: '航班', time: '20:10', notes: '回程' }
+                        { id: '6-1', name: '飯店接駁車', category: '交通', time: '10:15', notes: '前往越後湯澤站', transportToNext: { type: 'CAR', duration: '50 min' } },
+                        { id: '6-2', name: 'Tonkatsu Ninjintei', category: '美食', time: '12:00', notes: '人參亭炸豬排午餐', transportToNext: { type: 'WALK', duration: '10 min' } },
+                        { id: '6-3', name: '上越新幹線', category: '交通', time: '14:31', notes: '越後湯澤 -> 上野 (14:31-15:38)', transportToNext: { type: 'SHINKANSEN', duration: '67 min' } },
+                        { id: '6-4', name: 'Skyliner', category: '交通', time: '16:20', notes: '上野 -> 成田機場 T2', transportToNext: { type: 'TRANSIT', duration: '45 min' } },
+                        { id: '6-5', name: '星宇航空 JX805', category: '航班', time: '20:10', notes: '成田 T2 -> 台北 T1 (23:20抵達)' }
                     ]
                 });
 
